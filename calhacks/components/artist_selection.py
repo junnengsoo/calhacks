@@ -21,6 +21,10 @@ class ArtistSelectionState(rx.State):
         else:
             self.selected_artists.append(artist)
 
+    def log_selected_artists(self):
+        print("Selected Artists:", self.selected_artists)
+        return rx.window_alert(f"Selected Artists: {', '.join(self.selected_artists)}")
+
 def artist_icon_checkbox(artist: dict) -> rx.Component:
     return rx.vstack(
         rx.box(
@@ -73,6 +77,12 @@ def artist_selection() -> rx.Component:
                 ArtistSelectionState.selected_artists,
                 lambda artist: rx.list_item(artist)
             )
+        ),
+        rx.button(
+            "Log Selected Artists",
+            on_click=ArtistSelectionState.log_selected_artists,
+            color_scheme="blue",
+            margin_top="1em",
         ),
         width="100%",
         max_width="800px",
